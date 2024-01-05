@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 ## VSCode
-.vscode/
+.vscode
+!.vscode/launch.json
