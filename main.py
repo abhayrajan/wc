@@ -3,24 +3,57 @@ import getopt
 import os
 
 def main(argv):
-    opts, args = getopt.getopt(argv, "c:l:")
+    opts, args = getopt.getopt(argv, "c:l:m:w:")
 
-    for opt, arg in opts:
-        match opt:
-            case '-c':
-                get_bytes(arg)        
-            case '-l':
-                get_lines(arg)
+    if not opts or len(opts) == 0:
+        if len(args) == 0:
+            print("file missing")
+            return
 
-def get_bytes(file_name):
-    print(os.path.getsize(file_name),file_name)
+        print_info(None, args[0])    
+        return
+    
+    print_info(opts[0][0], opts[0][1])
 
-def get_lines(file_name):
-    num_lines = 0
-    with open(file_name) as file_handler:
-        for line in file_handler:
-            num_lines += 1
-    print(num_lines, file_name)
+def print_info(option, file_name):
+    if not file_name:
+        print("No such file")
+        return
+
+    if option == '-c':
+        print(os.path.getsize(file_name),file_name)
+        return
+
+    with open(file_name, "r") as file_handler:
+        lines = file_handler.readlines()
+
+        if option == '-l':
+              print(len(lines), file_name)
+              return            
+
+        words, chars = get_word_char_counts(lines)
+    
+        if option == '-w':
+            print(words, file_name)
+            return
+        
+        if option == '-m':
+            print(chars, file_name)
+            return
+        
+        if option is None:
+            print(len(lines), words, chars, file_name)
+            return;        
+        
+def get_word_char_counts(lines):
+    words = 0
+    chars = 0
+
+    for line in lines:
+        words += len(line.split())
+        chars += len(line)
+
+    return (words, chars)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
