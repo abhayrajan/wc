@@ -3,17 +3,22 @@ import getopt
 import os
 
 def main(argv):
-    opts, args = getopt.getopt(argv, "c:l:m:w:")
-
-    if not opts or len(opts) == 0:
-        if len(args) == 0:
-            print("file missing")
-            return
-
-        print_info(None, args[0])    
+    if not sys.stdin.isatty():
+        opts = getopt.getopt(argv, "clmw")
+        print(opts)
         return
-    
-    print_info(opts[0][0], opts[0][1])
+    else:
+        opts, args = getopt.getopt(argv, "c:l:m:w:")
+        if not opts or len(opts) == 0:
+            if len(args) == 0:
+                print("file or stdin required")
+                return
+            
+            print_info(None, args[0])    
+            return
+        
+        print_info(opts[0][0], opts[0][1])        
+
 
 def print_info(option, file_name):
     if not file_name:
