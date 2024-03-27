@@ -3,12 +3,21 @@
   "configurations": [
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "main.py",
       "console": "integratedTerminal",
       "justMyCode": true,
       "args": ["-c", "test.txt"]
+    },
+    {
+      "name": "Python: Pipe",
+      "type": "python",
+      "request": "launch",
+      "program": "main.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["<", "test.txt", "-c"]
     }
   ]
 }
